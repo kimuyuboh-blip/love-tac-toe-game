@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A Game For You </title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Dancing+Script:wght@600;700&family=EB+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --pink-1:#ffe9f0;
@@ -20,8 +20,6 @@
 
   *{ box-sizing:border-box; }
 
-  html, body{ height:100%; }
-
   body{
     margin:0;
     min-height:100vh;
@@ -29,38 +27,22 @@
     align-items:center;
     justify-content:center;
     font-family:'Quicksand', sans-serif;
-    background: linear-gradient(180deg, #f7d9e0 0%, #dcc3dd 32%, #aab6d3 66%, #7c8fb6 100%);
+    background: radial-gradient(circle at 20% 20%, var(--pink-1), var(--cream) 60%),
+                linear-gradient(135deg, var(--pink-1), var(--pink-2));
     color:var(--text-dark);
     overflow-x:hidden;
     padding:24px;
-    position:relative;
-  }
-
-  /* ---------- Persistent misty-mountain scene ---------- */
-  #bg-scene{
-    position:fixed;
-    inset:0;
-    z-index:0;
-    overflow:hidden;
-    pointer-events:none;
-    background: linear-gradient(180deg, #f7d9e0 0%, #dcc3dd 32%, #aab6d3 66%, #7c8fb6 100%);
   }
 
   .app{
     position:relative;
-    z-index:1;
     width:100%;
     max-width:460px;
   }
 
-  .hidden{ display:none !important; }
-
-  /* ---------- Card shell (glassmorphism) ---------- */
+  /* ---------- Card shell ---------- */
   .card{
-    background:rgba(255,255,255,0.78);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border:1px solid rgba(255,255,255,0.6);
+    background:var(--white);
     border-radius:28px;
     padding:36px 28px 32px;
     box-shadow:0 20px 45px rgba(201,138,114,0.22), 0 4px 12px rgba(201,138,114,0.12);
@@ -149,7 +131,7 @@
     50%{ box-shadow:0 0 18px rgba(232,180,160,0.7); }
   }
 
-  /* ---------- Buttons ---------- */
+  /* ---------- Reset button ---------- */
   .btn{
     border:none;
     border-radius:999px;
@@ -171,7 +153,7 @@
 
   .btn:active{ transform:translateY(0) scale(0.98); }
 
-  .btn:disabled{ opacity:0.7; cursor:default; transform:none; }
+  .hidden{ display:none !important; }
 
   /* ---------- Fade transition between screens ---------- */
   .fade-out{
@@ -186,183 +168,32 @@
     animation: fadeInUp 0.9s ease both;
   }
 
-  /* ---------- Welcome overlay (misty mountain) ---------- */
-  #welcome-overlay{
-    position:fixed;
-    inset:0;
-    z-index:10000;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
-    overflow:hidden;
-    background:transparent;
-    transition: opacity 1s ease, visibility 1s ease;
-  }
-
-  #welcome-overlay.overlay-hidden{
-    opacity:0;
-    visibility:hidden;
-    pointer-events:none;
-  }
-
-  .mountain-layer{
-    position:absolute;
-    bottom:0;
-    left:0;
-    width:100%;
-  }
-
-  .mountain-layer.layer-1{
-    height:52%;
-    background:linear-gradient(180deg, #b9c9dd, #dfe8f2);
-    clip-path: polygon(0% 60%, 10% 40%, 25% 55%, 40% 30%, 55% 50%, 70% 25%, 85% 45%, 100% 35%, 100% 100%, 0% 100%);
-    opacity:0.55;
-    filter: blur(1px);
-  }
-
-  .mountain-layer.layer-2{
-    height:38%;
-    background:linear-gradient(180deg, #93a8c7, #c3d0e3);
-    clip-path: polygon(0% 70%, 15% 45%, 30% 65%, 45% 35%, 60% 60%, 75% 30%, 90% 55%, 100% 40%, 100% 100%, 0% 100%);
-    opacity:0.7;
-  }
-
-  .mountain-layer.layer-3{
-    height:26%;
-    background:linear-gradient(180deg, #6b7fa3, #98abc9);
-    clip-path: polygon(0% 80%, 12% 50%, 28% 70%, 42% 40%, 58% 65%, 72% 35%, 88% 60%, 100% 45%, 100% 100%, 0% 100%);
-    opacity:0.9;
-  }
-
-  .mist-layer{
-    position:absolute;
-    inset:0;
-    background:
-      radial-gradient(ellipse 60% 30% at 20% 80%, rgba(255,255,255,0.55), transparent 60%),
-      radial-gradient(ellipse 50% 25% at 70% 85%, rgba(255,255,255,0.45), transparent 60%),
-      radial-gradient(ellipse 40% 20% at 50% 95%, rgba(255,255,255,0.5), transparent 60%);
-    filter: blur(6px);
-    animation: mistDrift 18s ease-in-out infinite alternate;
-  }
-
-  @keyframes mistDrift{
-    from{ transform: translateX(-3%); }
-    to{ transform: translateX(3%); }
-  }
-
-  .glass-card{
-    position:relative;
-    z-index:2;
-    background: rgba(255,255,255,0.78);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border:1px solid rgba(255,255,255,0.6);
-    border-radius:28px;
-    padding:44px 32px 38px;
-    max-width:420px;
-    width:100%;
+  /* ---------- Reveal card ---------- */
+  #reveal-screen{
     text-align:center;
-    box-shadow:0 20px 45px rgba(60,50,90,0.25);
-    animation: fadeInUp 0.9s ease both;
   }
 
-  .glass-card h1{
-    font-family:'Dancing Script', cursive;
-    font-size:2rem;
-    margin:0 0 14px;
-    color:var(--rose-gold-dark);
-  }
-
-  .glass-card p{
-    margin:0 0 28px;
-    font-size:0.98rem;
-    color:#7a6478;
-    line-height:1.6;
-  }
-
-  .enter-btn{
-    font-size:1.1rem;
-    padding:16px 36px;
-  }
-
-  /* ---------- Instructions screen ---------- */
-  .rules-text{
-    font-size:1rem;
-    line-height:1.7;
-    color:var(--text-dark);
-    margin:0 0 28px;
-  }
-
-  /* ---------- Reveal / confession screen ---------- */
   #reveal-screen h2{
     font-family:'Dancing Script', cursive;
-    font-size:1.9rem;
+    font-size:2rem;
     color:var(--rose-gold-dark);
-    margin:0 0 26px;
-    line-height:1.4;
+    margin:0 0 18px;
   }
 
-  /* ---------- Loading / misty interlude screen ---------- */
-  #loading-screen{
-    padding:56px 28px;
-  }
-
-  .loading-sparkle{
-    font-size:2.6rem;
-    display:inline-block;
-    animation: sparklePulse 1.6s ease-in-out infinite;
-  }
-
-  @keyframes sparklePulse{
-    0%,100%{ opacity:0.35; transform:scale(0.85) rotate(0deg); }
-    50%{ opacity:1; transform:scale(1.15) rotate(15deg); }
-  }
-
-  .loading-text{
-    margin-top:18px;
-    font-size:0.95rem;
-    color:#a9808c;
-    letter-spacing:0.3px;
-  }
-
-  /* ---------- Poem screen ---------- */
-  #poem-screen h2{
-    font-family:'Dancing Script', cursive;
-    font-size:1.8rem;
-    color:var(--rose-gold-dark);
-    margin:0 0 20px;
-  }
-
-  .poem{
-    font-family:'EB Garamond', serif;
-    font-style:italic;
-    font-size:1.15rem;
-    line-height:1.9;
+  #reveal-screen .message{
+    font-size:1.08rem;
+    line-height:1.75;
     color:var(--text-dark);
-    white-space:pre-line;
     margin:0 0 28px;
-    opacity:0;
-    animation: fadeInUp 1.4s ease forwards;
-    animation-delay:0.2s;
   }
 
-  .footer-question{
-    font-family:'Dancing Script', cursive;
-    font-size:1.5rem;
+  #reveal-screen .message b{
     color:var(--rose-gold-dark);
-    margin:0 0 24px;
-    opacity:0;
-    animation: fadeInUp 1.2s ease forwards;
-    animation-delay:1s;
   }
 
   .yes-btn{
     font-size:1.15rem;
     padding:16px 40px;
-    opacity:0;
-    animation: fadeInUp 1.2s ease forwards;
-    animation-delay:1.3s;
   }
 
   .thanks-msg{
@@ -416,32 +247,9 @@
 </head>
 <body>
 
-<div id="bg-scene">
-  <div class="mountain-layer layer-1"></div>
-  <div class="mountain-layer layer-2"></div>
-  <div class="mountain-layer layer-3"></div>
-  <div class="mist-layer"></div>
-</div>
-
-<div id="welcome-overlay">
-  <div class="glass-card">
-    <h1>A Little Surprise Just For You... ✨</h1>
-    <p>Before we begin, get comfy and turn your sound on 🎧💕</p>
-    <button id="enter-btn" class="btn enter-btn">Enter &amp; Play ❤️</button>
-  </div>
-</div>
-
-<audio id="bg-music" src="kesho_kutwa.mp3" loop></audio>
-
 <div class="app">
 
-  <div id="instructions-screen" class="card hidden">
-    <h1 class="title">How To Play</h1>
-    <p class="rules-text">The rules are simple: Get three hearts (💖) in a row to win a small prize. Be careful—the sparkles (✨) are playing to win!</p>
-    <button id="start-game-btn" class="btn">Start Game ✨</button>
-  </div>
-
-  <div id="game-screen" class="card hidden">
+  <div id="game-screen" class="card">
     <h1 class="title">You &amp; Me, Tic-Tac-Toe</h1>
     <p class="subtitle">You're 💖 &nbsp;·&nbsp; I'm ✨ &nbsp;·&nbsp; you go first</p>
 
@@ -449,32 +257,17 @@
 
     <div id="board"></div>
 
-    <button id="reset-btn" class="btn hidden">Almost had it! Try again? 💕</button>
+    <button id="reset-btn" class="btn hidden">Try again, beautiful! 💕</button>
   </div>
 
   <div id="reveal-screen" class="card hidden">
-    <h2>You won the game, but I won the lottery when I met you. It was love at first sight. 💖</h2>
-    <button id="more-btn" class="btn">Wait, there's one more thing...</button>
-  </div>
-
-  <div id="loading-screen" class="card hidden">
-    <div class="loading-sparkle">✨</div>
-    <p class="loading-text">just a moment...</p>
-  </div>
-
-  <div id="poem-screen" class="card hidden">
-    <h2>For You</h2>
-    <p class="poem">Before you, my quiet was just quiet —
-now it hums with something like your name.
-You walked in soft, like early morning light,
-and every ordinary hour caught flame.
-
-I've counted stars and I've counted chances,
-but never anything as sure as this:
-that among all the roads I could have wandered,
-I'm gladdest for the one that led to this.</p>
-    <p class="footer-question">I'm excited for the 5th, it's our second date.</p>
-    <button id="yes-btn" class="btn yes-btn">Me too 🥰</button>
+    <h2>You got three in a row… ✨💖✨</h2>
+    <p class="message">
+      You won the game, but I won the lottery when I met you.
+      It was love at first sight. 💖<br><br>
+      <b>Excited to spend time with you on the 5th, it's our 2nd date.</b>
+    </p>
+    <button id="yes-btn" class="btn yes-btn">Can't wait! 🥰</button>
     <div id="thanks-msg" class="thanks-msg hidden"></div>
   </div>
 
@@ -489,27 +282,13 @@ I'm gladdest for the one that led to this.</p>
   const HUMAN_PIECE = '💖';
   const AI_PIECE = '✨';
 
-  const welcomeOverlay = document.getElementById('welcome-overlay');
-  const enterBtn = document.getElementById('enter-btn');
-  const bgMusic = document.getElementById('bg-music');
-
-  const instructionsScreen = document.getElementById('instructions-screen');
-  const startGameBtn = document.getElementById('start-game-btn');
-
   const boardEl = document.getElementById('board');
   const statusEl = document.getElementById('status');
   const resetBtn = document.getElementById('reset-btn');
   const gameScreen = document.getElementById('game-screen');
-
   const revealScreen = document.getElementById('reveal-screen');
-  const moreBtn = document.getElementById('more-btn');
-
-  const loadingScreen = document.getElementById('loading-screen');
-
-  const poemScreen = document.getElementById('poem-screen');
   const yesBtn = document.getElementById('yes-btn');
   const thanksMsg = document.getElementById('thanks-msg');
-
   const fxLayer = document.getElementById('fx-layer');
 
   const WIN_PATTERNS = [
@@ -522,31 +301,6 @@ I'm gladdest for the one that led to this.</p>
   let gameActive = true;
   let currentTurn = HUMAN;
 
-  /* ---------- Screen sequencing ---------- */
-  function switchScreen(fromEl, toEl, delay = 550){
-    fromEl.classList.add('fade-out');
-    setTimeout(() => {
-      fromEl.classList.add('hidden');
-      fromEl.classList.remove('fade-out');
-      toEl.classList.remove('hidden');
-      toEl.classList.add('fade-in');
-      setTimeout(() => toEl.classList.remove('fade-in'), 950);
-    }, delay);
-  }
-
-  enterBtn.addEventListener('click', () => {
-    bgMusic.loop = true;
-    bgMusic.play().catch(() => {});
-    welcomeOverlay.classList.add('overlay-hidden');
-    instructionsScreen.classList.remove('hidden');
-    instructionsScreen.classList.add('fade-in');
-  });
-
-  startGameBtn.addEventListener('click', () => {
-    switchScreen(instructionsScreen, gameScreen);
-  });
-
-  /* ---------- Game board ---------- */
   function renderBoard(){
     boardEl.innerHTML = '';
     board.forEach((val, idx) => {
@@ -605,46 +359,14 @@ I'm gladdest for the one that led to this.</p>
     }
   }
 
-  /* ---------- Intermediate AI ----------
-     Tries to win when it can, blocks most of the time, but isn't
-     perfect — it plays a little loosely so she wins after a bit. */
-  function findWinningMove(player){
-    for (const pattern of WIN_PATTERNS){
-      const vals = pattern.map(i => board[i]);
-      const emptyCount = vals.filter(v => v === null).length;
-      const playerCount = vals.filter(v => v === player).length;
-      if (playerCount === 2 && emptyCount === 1){
-        return pattern[vals.indexOf(null)];
-      }
-    }
-    return null;
-  }
-
   function aiMove(){
     if (!gameActive) return;
     const emptyCells = board
       .map((v, i) => v === null ? i : null)
       .filter(v => v !== null);
     if (emptyCells.length === 0) return;
-
-    let idx;
-    const winMove = findWinningMove(AI);
-    const blockMove = findWinningMove(HUMAN);
-
-    if (winMove !== null && Math.random() < 0.85){
-      idx = winMove;
-    } else if (blockMove !== null && Math.random() < 0.65){
-      idx = blockMove;
-    } else {
-      const preferred = [4,0,2,6,8].filter(i => board[i] === null);
-      if (preferred.length && Math.random() < 0.5){
-        idx = preferred[Math.floor(Math.random() * preferred.length)];
-      } else {
-        idx = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-      }
-    }
-
-    makeMove(idx, AI);
+    const randomIdx = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    makeMove(randomIdx, AI);
   }
 
   function getWinningPattern(player){
@@ -673,31 +395,15 @@ I'm gladdest for the one that led to this.</p>
     renderBoard();
   });
 
-  /* ---------- Win -> reveal -> poem sequence ---------- */
   function triggerWinSequence(){
     launchConfetti();
-    switchScreen(gameScreen, revealScreen);
-  }
-
-  moreBtn.addEventListener('click', () => {
-    switchScreen(revealScreen, loadingScreen, 550);
+    gameScreen.classList.add('fade-out');
     setTimeout(() => {
-      loadingScreen.classList.add('fade-out');
-      setTimeout(() => {
-        loadingScreen.classList.add('hidden');
-        loadingScreen.classList.remove('fade-out');
-        poemScreen.classList.remove('hidden');
-        poemScreen.classList.add('fade-in');
-      }, 550);
-    }, 4000);
-  });
-
-  yesBtn.addEventListener('click', () => {
-    launchHearts();
-    yesBtn.disabled = true;
-    thanksMsg.textContent = "Yay! We're going to have a blast together 🥰💖";
-    thanksMsg.classList.remove('hidden');
-  });
+      gameScreen.classList.add('hidden');
+      revealScreen.classList.remove('hidden');
+      revealScreen.classList.add('fade-in');
+    }, 550);
+  }
 
   /* ---------- Confetti ---------- */
   const CONFETTI_COLORS = ['#ffb6c9','#ffd3e2','#e8b4a0','#c98a72','#fff0f5','#ffe9f0','#f7c6d9'];
@@ -742,9 +448,20 @@ I'm gladdest for the one that led to this.</p>
     }
   }
 
+  yesBtn.addEventListener('click', () => {
+    launchHearts();
+    yesBtn.disabled = true;
+    thanksMsg.textContent = "Yay! You just made me the happiest person ever 🥰💖";
+    thanksMsg.classList.remove('hidden');
+  });
+
   renderBoard();
 })();
 </script>
+
+<audio id="bgMusic" autoplay loop>
+  <source src="path/to/kesho_kutwa.mp3" type="audio/mpeg">
+</audio>
 
 </body>
 </html>
